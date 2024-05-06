@@ -1,10 +1,6 @@
 
 
 def flood(heightmap, pos, h):
-    """
-    pos is a pair of indices on heightmap (position where it gets flooded)
-    h is the corresponding height
-    """
     flooded = np.zeros(heightmap.shape)
 
     stencil = np.array([
