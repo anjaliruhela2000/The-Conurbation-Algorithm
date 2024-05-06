@@ -8,19 +8,6 @@ singleton = Singleton("roadmap")
 
 
 def iteration(front):
-    """
-    Gets Called in the mainloop.
-    Manages the front and newfront and the queue
-
-    Parameters
-    ----------
-    front : list<Vertex>
-
-    Returns
-    -------
-    newfront : list<Vertex>
-
-    """
     newfront = []
 
     for vertex in front:
