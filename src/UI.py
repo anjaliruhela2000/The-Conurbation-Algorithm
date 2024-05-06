@@ -19,18 +19,6 @@ if not os.path.exists(path+"/outputs/"):
 
 
 def setup_matplotlib():
-    """
-    This function is used to set the matplotlib backend correctly.
-
-    Parameters
-    ----------
-
-    Returns
-    --------
-    None
-
-    :return:
-    """
     if sys.version[0] == "3":
         import matplotlib
         try:
@@ -84,22 +72,6 @@ def visualization():
 
 
 def main(args):
-    """
-
-    Welcome to procedural_city_generation, a module for procedurally generating a 3D model of a city in Blender with python.
-
-    A call to this module from the command line should follow this format::
-
-        python UI.py <submodule-name> <options>
-
-    <submodule-name> is either "roadmap", "polygons", "building_generation, "visualization".
-    <options> is either "run" or "configure"
-
-    If you want to configure a paremeter, go with
-
-        python UI.py <submodule-name> --configure <parameter-name> <new value>
-
-    """
     if len(args) == 1:
         print(main.__doc__)
         return 0
