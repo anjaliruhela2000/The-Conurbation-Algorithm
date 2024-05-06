@@ -15,20 +15,6 @@ class Global_Lists:
 
 
 def config():
-    """
-    Starts the program up with all necessary things. Reads the inputs,
-    creates the Singleton objects properly, sets up the heightmap for later,
-    makes sure all Vertices in the axiom have the correct neighbor. Could
-    need a rework in which the Singletons are unified and not broken as they
-    are now.
-
-    Returns
-    -------
-    variables : Variables object
-        Singleton with all numeric values which are not to be changed at runtime
-    singleton.global_lists : singleton.global_lists object
-        Singleton with the Global Lists which will be altered at runtime
-    """
     import json
     from collections import namedtuple
     import os
@@ -75,13 +61,6 @@ def config():
         x.coords for x in singleton.global_lists.vertex_list]
 
     def setNeighbours(vertex):
-        """ Correctly Sets up the neighbors for a vertex from the axiom.
-
-        Parameters
-        ----------
-        vertex : vertex Object
-        """
-
         d = np.inf
         neighbour = None
         for v in singleton.axiom:
