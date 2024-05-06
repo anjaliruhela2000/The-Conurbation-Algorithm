@@ -9,17 +9,6 @@ import procedural_city_generation
 
 
 class BuildingHeight(object):
-    """
-    Manages and distributes building-heights for buildings
-
-    Parameters
-    ----------
-    savename: name of file we are reading input from (polygons-step of this program)
-
-    imagename: name of image or the string "diffused". If this parameter is not "diffused", then
-        this program will look for an image of that imagename in the folder procedural_ciy_generation/inputs/buildingheight_pictures
-    """
-
     def __init__(self, savename, imagename):
 
         self.path = os.path.dirname(procedural_city_generation.__file__)
@@ -48,19 +37,6 @@ class BuildingHeight(object):
             print("Image found")
 
     def diffusion(self, arr, d):
-        """ Simulates diffusion. Taken from Stackoverflow user [aizquier]
-        (https://stackoverflow.com/questions/8102781/efficiently-doing-diffusion-on-a-2d-map-in-python)
-
-        Parameters
-        ----------
-        arr : np.ndarray(m, n)
-            Array representing the grayscale image to be diffused
-        d : float
-
-        Returns
-        -------
-        np.ndarray(m, n)
-        """
         contrib = (arr * d)
         w = contrib / 8.0
         r = arr - contrib
@@ -76,20 +52,6 @@ class BuildingHeight(object):
         return diffused
 
     def setupimage(self, path):
-        """
-        Sets up the image for the building height data
-        As of now, always takes a diffused version of the population density image
-
-        Parameters
-        ----------
-        path : String
-            Path to the population density image
-
-        Returns
-        -------
-        img : np.ndarray(m, n, 3)
-
-        """
         import matplotlib.image as mpimg
 
         # TODO: make diffused an option, add constants to config file
@@ -114,21 +76,7 @@ class BuildingHeight(object):
         return img
 
     def getBuildingHeight(self, center):
-        """
-        Gets buildingheight for a building
-
-        Parameters
-        ----------
-        center : numpy.ndarray(2, 1)
-            xy-coordinates of the center of the building to get buildingheight for
-
-        Returns
-        -------
-        float
-
-        """
-        # TODO: Export numbers to some sort of constant-singleton)
-
+       
         x = (center[0]+self.border[0])/(self.border[0]*2)
         y = (center[1]+self.border[1])/(self.border[1]*2)
 
