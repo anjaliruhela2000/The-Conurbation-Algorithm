@@ -3,16 +3,6 @@ import os
 
 
 def setup_heightmap(singleton, path):
-    #TODO: Document
-    '''Sets up the heightmap image from roadmap.conf entry heightmap_name, writes ./Heightmaps/inuse.txt so other functions know which heightmap to load
-    possible inputs:
-    random: generates a new random map with randommap.py
-    insert_name
-    insert_name.png
-    insert_name.txt
-    '''
-
-    # TODO make inputs more flexible
     name = singleton.heightmap_name
 
     if name == "random":
