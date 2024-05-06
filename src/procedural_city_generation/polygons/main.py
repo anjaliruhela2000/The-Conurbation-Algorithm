@@ -6,11 +6,6 @@ gui = None
 
 
 def main(vertex_list=None):
-    '''Input: list of vertices representing the Roadmap
-    Output: List of all Polygon2Ds representing Lots,
-    List of all Polygon2Ds representing Blocks
-    List of all Polygon2Ds which are too large to be Lots
-    Polygon2D representing the road-network'''
     singleton = Singleton("polygons")
 
     if vertex_list is None:
