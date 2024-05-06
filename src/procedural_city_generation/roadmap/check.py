@@ -9,40 +9,6 @@ singleton = Singleton("roadmap")
 
 
 def check(suggested_vertex, neighbour, newfront):
-    """
-    Performs the following checks on a suggestes vertex and the suggested
-    connection between this vertex and his last neighbour:
-
-    1) Is the vertex out of bounds
-        If yes, dont add this Vertex
-    2) Is the vertex too close to an existing vertex
-        If yes, change the vector that is checked in 4 and 5 from
-        [neighbor-suggested_vertex] to [neighbor-closest_existing_point]
-    3) Does the the vector intersect an existing connection (road)
-        If yes, only create the connection up until that intersection.
-        Add that intersection to the Global_lists and fix the neighbor
-        attribute of the existing connection that was "intersected".
-    4) Does the vector stop shortly before an existing connection
-        If yes, extend the connection up until that intersection.
-        Add that intersection to the Global_lists and fix the neighbor
-        attribute of the existing connection that was "intersected".
-    If none of the above, simply add this vertex to the global_lists
-    and the new front and return the newfront. This is the only place
-    aftert config, where Vertices get added to the Global Lists. Every Time
-    A vertex is added, the cKDTree used to find the closest vertices has to
-    be updated.
-
-    Parameters
-    ----------
-    suggested_vertex : Vertex object
-    neighbour : Vertex object
-    newfront : list<Vertex>
-
-    Returns
-    -------
-    newfront : list<Vertex>
-    """
-    # Checks if Neighborbar is in Bounds
     if (abs(suggested_vertex.coords[0]) > singleton.border[0]-singleton.maxLength) or (abs(suggested_vertex.coords[1]) > singleton.border[1]-singleton.maxLength):
         return newfront
 
@@ -132,24 +98,6 @@ def check(suggested_vertex, neighbour, newfront):
 
 
 def get_intersection(a, ab, c, cd):
-    """Gets the intersection coordinates between two lines.
-    If it does not exist (lines are parrallel), returns np.array([np.inf, np.inf])
-
-    Parameters
-    ----------
-    a : np.ndarray(2, 1)
-        Starting point of first vector
-    ab : np.ndarray(2, 1)
-        First vector (b-a)
-    c : np.ndarray(2, 1)
-        Starting point of second vector
-    cd : np.ndarray(2, 1)
-        Second vector (d-c)
-
-    Returns
-    -------
-    intersection : np.ndarray(2, 1)
-    """
     try:
         return np.linalg.solve(np.array([ab, -cd]).T, c-a)
     except np.linalg.linalg.LinAlgError:
