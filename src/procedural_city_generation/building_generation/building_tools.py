@@ -16,81 +16,30 @@ else:
 
 
 def walls_from_poly(poly2d):
-    """
-    Creates a wall object from a Polygon3D Object by converting
-    Poly.vertices from 2D-Arrays to 3D, np.array([x, y])->np.array([x, y, 0])
-
-    Parameters
-    ----------
-    poly2d : procedural_city_generation.polygons.Polygon2D object
-
-    Returns
-    -------
-    walls : procedural_city_generation.building_generation.Walls object
-
-    """
     l = len(poly2d.vertices)
     return Walls(np.hstack((np.array(poly2d.vertices), [[0]]*l)), l)
 
 
 class Walls(object):
-    """
-    Walls object which has vertices saved as numpy arrays
-    """
-
     def __init__(self, verts, l):
-        """
-        Parameters
-        ----------
-        verts: numpy.ndarray(l, 3)
-        l: int
-            shape[0] of verts
-        """
         self.vertices = verts
         self.l = l
         self.center = sum(self.vertices)/self.l
         self.walls = None
 
     def getWalls(self):
-        """
-        Lazily evaluated walls as numpy array with shape (self.l, 2, 3)
-
-        Returns
-        -------
-        np.ndarray(l, 3, 2)
-        """
         if self.walls is None:
             self.walls = np.array([self.vertices[[i, i-1]]
                                    for i in range(self.l)])
         return self.walls
 
     def selfplot(self):
-        """
-        Plots itself with matplotlib
-
-        Returns
-        --------
-        None
-        """
         c = random.choice("rgbcmyk")
         composite = np.array([x for x in self.vertices]+[self.vertices[0]])
         plt.plot(composite[:, 0], composite[:, 1], color=c)
 
 
 def scale(walls, factor):
-    """
-    Scales a walls object by a factor
-
-    Parameters
-    ----------
-    walls  :  procedural_city_generation.building_generation.Walls object
-    factor :  float
-        Number to be scaled to. E.g. 2 doubles the size, 0.5 halves the size
-
-    Returns
-    -------
-    walls : procedural_city_generation.building_generation.Walls object
-    """
     return Walls(walls.center+(walls.vertices-walls.center)*factor, walls.l)
 
 
@@ -114,31 +63,6 @@ def scale(walls, factor):
 
 
 def buildwalls(walls, bottom, top, texture):
-    """Creates one walls Polygon object with shared vertices in the shape of the walls object
-
-    Parameters
-    ----------
-    walls  :  procedural_city_generation.building_generation.Walls object
-    bottom : float
-        Z coordinate of the bottom of the walls
-    top : float
-        Z coordinate of the top of the walls
-    texture : procedural_city_generation.building_generation.Texture object
-
-    Returns
-    -------
-    procedural_city_generation.building_generation.Polygon3D object
-
-    Example
-    -------
-    >>>w=Walls([[0, 0, 0], [0, 1, 0], [1, 1, 0]], 3)
-    >>>p= buildwalls(  w , 1, 2, some_tex)
-    >>>p.verts
-    [[0, 0, 1], [0, 1, 1], [1, 1, 1], [0, 0, 2], [0, 1, 2], [1, 1, 2]]
-    >>>p.faces
-    [[1, 0, 3, 4], [2, 1, 4, 5], [2, 0, 3, 5]]
-
-    """
     verts = np.concatenate(
         (walls.vertices+np.array([0, 0, bottom]), walls.vertices+np.array([0, 0, top])))
     faces = [[i+1, i, i+walls.l, i+1+walls.l] for i in range(walls.l-1)]
@@ -147,31 +71,6 @@ def buildwalls(walls, bottom, top, texture):
 
 
 def buildledge(walls, bottom, top, texture):
-    """
-    Creates one ledge Polygon object with shared vertices in the shape of the walls object
-
-    Parameters
-    ----------
-    walls  :  procedural_city_generation.building_generation.Walls object
-    bottom : float
-            z coordinate of the bottom of the walls
-    top : float
-            z coordinate of the top of the walls
-    texture : procedural_city_generation.building_generation.Texture object
-
-    Returns
-    -------
-    procedural_city_generation.building_generation.Polygon3D object
-
-    Example
-    ----------
-    >>>w=Walls([[0, 0, 0], [0, 1, 0], [1, 1, 0]], 3)
-    >>>p= buildlege(  w , 1, 2, some_tex)
-    >>>p.verts
-    [[0, 0, 1], [0, 1, 1], [1, 1, 1], [0, 0, 2], [0, 1, 2], [1, 1, 2]]
-    >>>p.faces
-    [[1, 0, 3, 4], [2, 1, 4, 5], [2, 0, 3, 5], [0, 1, 2], [3, 4, 5]]
-    """
     verts = np.concatenate(
         (walls.vertices+np.array([0, 0, bottom]), walls.vertices+np.array([0, 0, top])))
     faces = [[i+1, i, i+walls.l, i+1+walls.l] for i in range(walls.l-1)]
@@ -181,29 +80,6 @@ def buildledge(walls, bottom, top, texture):
 
 
 def get_windows(walls, list_of_currentheights, floorheight, windowwidth, windowheight, windowdist, texture):
-    """
-    Creates a Polygon3D Object containing the coordinates to all windows of a building
-
-    Parameters
-    ----------
-    walls  : procedural_city_generation.building_generation.Walls Object
-    list_of_currentheights : list<float>
-        Which has one entry for each z-coordinate of a row of windows to be created.
-        This always means the 'bottom' of each floor.
-    floorheight  :  float
-        Floorheight of the building, used to calculate center of each floor where windows are to be built
-    windowwidth : float
-        Width of each window
-    windowheight : float
-        Height of each window
-    windowdist : float
-        Distance between two windows if more than one window fits on the wall
-
-    Returns:
-    --------
-    procedural_city_generation.building_generation.Polygon3D object with shared vertices
-    """
-
     nc = len(list_of_currentheights)
 
     # Start off as empty list
@@ -264,26 +140,6 @@ def get_windows(walls, list_of_currentheights, floorheight, windowwidth, windowh
 
 
 def verticalsplit(buildingheight, floorheight):
-    """
-    Splits the Building vertically.
-
-    Parameters
-    ----------
-    buildingheight  : float
-        Height of the building
-    floorheight  :  float
-        Height of each floor
-
-    Returns
-    -------
-    list<char>
-        Each character stands for one "building element" where:
-        l=ledge
-        f=floor
-        b=base (Erdgeschoss)
-        r=roof
-    """
-
     # List of chars to be returned. Starts with base
     returnlist = ['b']
 
@@ -329,25 +185,6 @@ def verticalsplit(buildingheight, floorheight):
 
 
 def scaletransform(walls, scalefactor, transformfactor=None, side=None):
-    """
-    Scales and transforms a procedural_city_generation.building_generation.Walls object
-
-    Parameters
-    ----------
-    walls :  procedural_city_generation.building_generation.walls object
-    scalefactor : float
-        The factor to which the walls object is scaled down to
-    transformfactor (optional) : float
-        The factor to which the scaled down object will be moved
-        to one of the vertices, i.e. 1 means all the way to the vertex,
-        0 means the object will stay centered
-    side (optional) : int
-        The vertex to which the object is transformed towards
-
-    Returns
-    -------
-    procedural_city_generation.building_generation.walls object
-    """
     newwalls = scale(walls, scalefactor)
     side = side if side else random.randint(0, walls.l-1)
     transformfactor = transformfactor if transformfactor else random.uniform(
