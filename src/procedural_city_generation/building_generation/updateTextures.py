@@ -5,22 +5,6 @@ import random
 
 
 class Texture(object):
-    """Texture Object
-
-    Parameters
-    ----------
-    name : String
-        Full name of image of texture
-    scale : float
-        How many times the texture is to be scaled down. The larger the number the smaller the texture
-    minP : float
-        Minimum int between 0 and 100 so this texture is considered
-    maxP : float
-        Maximum int between 0 and 100 so this texture is considered
-    shrinkwrap (optional): boolean
-        Describes whether Polygon3Ds with this texture will be projected onto surface.
-    """
-
     def __init__(self, name, scale, minP, maxP, shrinkwrap=False, index=0):
 
         self.name = name
@@ -35,23 +19,6 @@ class Texture(object):
 
 
 def updateTextures():
-    """Parses /visualization/Textures/ and compares with /visualization/texTable.json
-
-    Parameters
-    ----------
-    None
-
-    Returns
-    -------
-    List<procedural_city_generation.building_generation.Texture>
-
-    Example
-    --------
-    ::
-    >>>updateTextures()
-    ["Tex_Roof03.jpeg", "Tex_Grass01.jpg", "Tex_Road01.png"]
-    """
-
     import procedural_city_generation
     path = os.path.dirname(procedural_city_generation.__file__)
     teximages = os.listdir(path+"/visualization/Textures/")
@@ -72,37 +39,10 @@ def updateTextures():
 
 
 class textureGetter(object):
-    """Gets initiated with a list of textures, used for chosing a random texture for a specific buildingHeight
-
-    Parameters
-    ----------
-    textures : list of procedural_city_generation.visualization.texture objects
-    """
-
     def __init__(self, textures):
         self.textures = textures
 
     def getTexture(self, name, p):
-        """Returns a random texture for a specific name and buildingHeight p between 1 and 100
-
-        Parameters
-        ----------
-        name : String
-            Substring which has to be included in returned texture
-        p : int
-            Integer between 1 and 100, 100fold of the buildingheight in meters.
-
-        Returns
-        -------
-        procedural_city_generation.building_generation.Texture object
-
-        Example
-        -------
-        ::
-        >>>textureGetter.getTexture("Roof", 40)
-        Tex_Roof03.jpeg
-        """
-
         p = max(min(100, p*100), 0)
         tex = [x for x in self.textures if name in x.name]
         if tex != []:
