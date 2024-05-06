@@ -7,22 +7,14 @@ from copy import copy
 
 
 def randommap(rows, cols):
-    '''terribly coded random-height-map generator, takes # of rows and cols as input as well as the minimum and maximum height for starting the randomization'''
-    '''If balance is True, it will result in the map having "cube" dimensions, as in base and height having similar axis scales'''
-    '''sadly only works when rows=cols'''
-
-
     #Starts off with an Array full of zeros
     arr=np.zeros((rows, cols))
 
 
     def semirand(x):
-        '''Gives a number a random value within a given tolerance'''
         return x+0.002+(np.random.uniform(-0.005, +0.005))
 
     def fillarray(x, y):
-        '''Fills row:x col:y of the array to be filled out'''
-
         if x!=0 and y!=0:
             arr[x][y]=(semirand(arr[x-1][y])+arr[x-1][y-1]+arr[x][y-1])/3
 
