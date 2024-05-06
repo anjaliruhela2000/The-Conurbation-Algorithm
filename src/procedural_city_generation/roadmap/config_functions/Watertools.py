@@ -11,11 +11,6 @@ class Watertools:
         self.flooded = np.zeros(self.heightmap.shape)
 
     def flood(self, h, pos):
-        """
-        pos is a pair of indices on heightmap (position where it gets flooded)
-        h is the corresponding height
-        """
-
         stencil = np.array([
             [-1, 0],
             [1, 0],
