@@ -3,18 +3,6 @@
 # import matplotlib.pyplot as plt
 
 def merge_polygons(polygons, textures, output_name):
-    """
-    Groups Polygon3Ds with identical Texture because Blender's mesh.from_pydata()
-    and bpy.context.scene.objects.link take an increasing amount of time with amount
-    of existingPolygons. Saves Polygons to /outputs/buildings.txt
-
-    Parameters
-    -----------
-    polygons : list<procedural_city_generation.polygons.Polygon3D>
-        List of 3D polygons to be built in blender
-    textures : list<procedural_city_generation.building_generation.Texture>
-        List of textures in use
-    """
     print("Merging Polygon3Ds")
 
     # List of Empty Lists is filled up with polygons with corresponding texture
@@ -22,34 +10,10 @@ def merge_polygons(polygons, textures, output_name):
     [poly_group_by_texture[poly.texture.index].append(
         poly) for poly in polygons]
 
-
-##############################################################################
-# Currently not in Use. Only useful when trying to remove duplicate vertices #
-##############################################################################
-#    def search(x, tree):
-#        return tree.query(x, 1)[1]
-#
-#    def unique(a):
-#        order = np.lexsort(a.T)
-#        a = a[order]
-#        diff = np.diff(a, axis=0)
-#        ui = np.ones(len(a), 'bool')
-#        ui[1:] = (diff < 0.01).any(axis=1)
-#        return a[ui]
-
     mergedpolys = []
     ind = 0
     for polys in poly_group_by_texture:
         if len(polys) > 0:
-
-            #### Also not in use, see above ####
-            #            allverts=[]
-            #            [allverts.extend(poly.verts) for poly in polys]
-            #            faces=[]
-            #            from scipy.spatial import cKDTree
-            #            tree=cKDTree(allverts, leafsize=32)
-            #            faces=[[search(vert, tree) for vert in poly.verts] for poly in polys]
-
             M = Merger()
             [M.merge(poly) for poly in polys]
 
@@ -83,31 +47,6 @@ class Merger(object):
         self.allfaces = []
 
     def merge(self, poly):
-        """merges polygons with same Texture
-        Parameters
-        ----------
-        poly : procedural_city_generation.building_generation.Polygon3D Object
-            Polygon object to be merged to this Merger
-
-
-        Example
-        -------
-        ::
-        >>>anotherPoly.verts
-        [(0, 0, 0), (0, 1, 0), (1, 1, 0)]
-        >>>anotherPoly.faces
-        [0, 1, 2]
-        >>>m=Merger()
-        >>>m.allverts
-        [(3, 3, 0), (3, 4, 0), (4, 4, 0)]
-        >>>m.faces
-        [(0, 1, 2)]
-        >>>m.merge(anotherPoly)
-        >>>m.allverts
-        [(3, 3, 0), (3, 4, 0), (4, 4, 0), (0, 0, 0), (0, 1, 0), (1, 1, 0)]
-        >>>m.faces
-        [(0, 1, 2), (3, 4, 5)]
-        """
         self.allfaces.extend([[x+self.n for x in face] for face in poly.faces])
         self.n += len(poly.verts)
         self.allverts.extend(poly.verts)
