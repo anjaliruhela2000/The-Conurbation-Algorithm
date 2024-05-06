@@ -7,21 +7,6 @@ singleton = Singleton("roadmap")
 
 
 def getRule(vertex):
-    """
-    Gets the correct growth_rule for a Vertex, depending on that objects'
-    xy coordinates and the growth_rule_image
-
-    Parameters
-    ----------
-    vertex : Vertex object
-
-    Returns
-    -------
-    tuple(int, np.ndarray(3, ) , float)
-        (int) for choosing the correct growth rule,
-        (np.ndarray) for center in case that the radial rule is chosen,
-        (float) for population_density
-    """
     x = (vertex.coords[0] + singleton.border[0]) / (singleton.border[0] * 2)
     y = (vertex.coords[1] + singleton.border[1]) / (singleton.border[1] * 2)
 
