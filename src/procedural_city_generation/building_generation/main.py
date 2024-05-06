@@ -8,11 +8,6 @@ gui = None
 
 
 def main():
-    """ Reads list of procedural_city_generation.polygons.Polygon2D objects from file
-    and constructs buildings on top of these. The buildings consist of Polygon3D objects,
-    which are saved to /outputs/polygons.txt. See merger module for more details.
-    """
-
     import procedural_city_generation
     path = os.path.dirname(procedural_city_generation.__file__)
     from procedural_city_generation.building_generation.cuts import scale, scaletransform, walls_from_poly, randomcut
