@@ -8,19 +8,6 @@ from procedural_city_generation.roadmap.growth_rules.minor_road import minor_roa
 
 
 def getSuggestion(vertex):
-    """
-    Calls each of the actual growth rules, and returns a list of suggested vertices
-
-    Parameters
-    ----------
-    vertex : Vertex object
-
-    Returns
-    -------
-    list<Vertex>
-
-
-    """
     suggestions = []
     rule = getRule(vertex)
     # Grid
