@@ -18,18 +18,6 @@ class Param(object):
         return self.name
 
     def setValue(self, val):
-        """
-        Validates User Parameters and prints errors or warnings when not correct
-
-        Parameters
-        ----------
-        val: eval()'d value of parameter as input
-
-        Returns
-        -------
-
-        """
-
         #Validates File parameters and checks for their existence
         if self.value_type == "file" or self.value_type == "File":
             if (type(val) == str) and (os.path.exists(os.path.dirname(procedural_city_generation.__file__)+"/"+val)):
@@ -85,17 +73,6 @@ class Param(object):
             self.val=val
 
 def paramsFromJson(path):
-    """
-    Reads JSON file and produces list of Param objects
-
-    Parameters
-    ----------
-    path : String path to JSON file
-
-    Returns
-    -------
-    parameters : List<procedural_city_generation.additional_stuff.Param>
-    """
     import json
     with open(path, 'r') as f:
         param_json=json.loads(f.read())
@@ -114,18 +91,6 @@ def paramsFromJson(path):
 
 
 def jsonFromParams(path, params_list):
-    """
-    Writes parameters to JSON format
-
-    Parameters
-    ----------
-    path String path to where the JSON should be saved
-    params_list List of procedural_city_generation.additional_stuff.Param objects
-
-    Returns
-    -------
-
-    """
     import json
     param_dict={}
 
