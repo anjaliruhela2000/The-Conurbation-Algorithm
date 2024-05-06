@@ -1,5 +1,4 @@
 def main():
-    '''Deprecated. Was used at lange nacht der Wissenschaften to read images and highlight the way they impact the creation of the Strassennetz'''
     import matplotlib.pyplot as plt
     import matplotlib.image as mpimg
     import numpy as np
